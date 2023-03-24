@@ -11,7 +11,7 @@ const userSchema = new Schema({
         type: String, 
         required: true,
         unique: true,
-        match: ["*@gmail.com"]
+    //    match: ["*@gmail.com"]
      },
     thoughts: [
         {
@@ -25,6 +25,18 @@ const userSchema = new Schema({
             ref: 'User'
         }
     ],
+    },
+    {
+        toJson: {
+            virtuals: true,
+        },
+        id: false
+    }
+);
+
+// virtual for counting number of user objects in friends array
+userSchema.virtual('friendCount').get(function () {
+    return this.friends.length;
 });
 
 const User = model('user', userSchema);

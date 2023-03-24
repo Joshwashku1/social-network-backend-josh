@@ -21,6 +21,7 @@ const reactionSchema = new Schema({
     }
 });
 
+// Thought Schema
 const thoughtSchema = new Schema({
     thoughtText: { 
         type: String,
@@ -39,6 +40,11 @@ const thoughtSchema = new Schema({
     },
     reactions: [reactionSchema]
 
+});
+
+// virtual that grabs the reaction count
+thoughtSchema.virtual('reactionCount').get(function () {
+    return this.reactions.length;
 });
 
 const Thought = model('thought', thoughtSchema);
