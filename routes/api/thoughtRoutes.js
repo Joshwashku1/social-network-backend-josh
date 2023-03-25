@@ -1,11 +1,12 @@
 const router = require('express').Router();
 
 
-// /api/users
+
+
+// /api/thoughts
 router.route('/');
 
-// /api/users/:userId
-router.route('/:userId');
-
+// /api/thoughts/:thoughtId/reactions
+router.route('/:thoughtId/reactions');
 
 module.exports = router;
