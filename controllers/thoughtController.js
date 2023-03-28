@@ -24,4 +24,35 @@ module.exports = {
             .then((thoughtData) => res.json(thoughtData))
             .catch((err) => res.status(500).json(err));
     },
+    updateThoughtText(req,res) {
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId},
+            { $set: { thoughtText: req.body.thoughtText }},
+            { validators: true, new: true }
+        )
+        .then((thought) => 
+            !thought
+                ? res
+                    .status(404)
+                    .json({ message: 'No thought found by that ID'})
+                : res.json(thought)    
+
+        )
+        .catch((err) => res.status(500).json(err));
+    },
+    createReaction(req,res){
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $addToSet: { reactions: req.body }},
+            { validators: true, new: true }
+        )
+        .then((thought) => 
+            !thought
+                ? res
+                    .status(404)
+                    .json({ message: 'No thought found by Id' })
+                : res.json(thought)
+        )
+        .catch((err) => res.status(500).json(err));
+    }
 };
