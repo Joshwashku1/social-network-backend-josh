@@ -57,5 +57,20 @@ module.exports = {
                 : res.json(user)
         )
         .catch((err) => res.status(500).json(err));
+    },
+    deleteUser(req,res){
+        User.findOneAndRemove({ _id: req.params.userId })
+            .then((user) => 
+                !user
+                    ? res.status(404).json({ message: 'User not found by Id' })
+                    : User.updateMany(
+                        { friends: req.params.userId },
+                        { $pull: { friends: req.params.userId} },
+                        { new: true}
+                    )
+                    .then(res.json(user))
+                    .catch((err) => res.json(err)) 
+            )
+            .catch((err) => res.status(500).json(err))
     }
 };
